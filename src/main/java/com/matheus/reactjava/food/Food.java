@@ -1,9 +1,17 @@
 package com.matheus.reactjava.food;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Table(name="food")
 @Entity(name="foods")
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Food {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,5 +21,11 @@ public class Food {
 
     private String image;
 
-    private String price;
+    private Integer price;
+
+    public Food(FoodRequestDTO food){
+        this.title = food.title();
+        this.image = food.image();
+        this.price = food.price();
+    }
 }

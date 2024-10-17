@@ -1,13 +1,12 @@
 package com.matheus.reactjava.controller;
 
 import com.matheus.reactjava.food.Food;
+import com.matheus.reactjava.food.FoodRequestDTO;
+import com.matheus.reactjava.food.FoodResponseDTO;
 import com.matheus.reactjava.foodrepository.FoodRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -17,12 +16,21 @@ public class ReactJavaController {
     @Autowired
     private FoodRepository foodRepository;
 
-    @GetMapping
-    public List<Food> getAll(){
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PostMapping
+    public void saveFood(@RequestBody FoodRequestDTO food) {
+        Food foodRequest = new Food(food);
+        foodRepository.save(foodRequest);
+        return;
 
-        List<Food> foodList = foodRepository.findAll();
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping
+    public List<FoodResponseDTO> getAll(){
+
+        List<FoodResponseDTO> foodList = foodRepository.findAll().stream().map(FoodResponseDTO::new).toList();
         return foodList;
 
     }
 }
- 
